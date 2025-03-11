@@ -13,6 +13,10 @@ def kelly_criterion(edge, bankroll, kelly_fraction=0.25, max_bet_percent=0.025):
     Returns:
     float: Suggested stake amount.
     """
+    # Convert edge and max bet percentage to decimal
+    edge = edge / 100
+    max_bet_percent = max_bet_percent / 100
+    
     # If edge is negative, no bet should be placed
     if edge <= 0:
         return 0.0
@@ -29,11 +33,10 @@ st.title("Kelly Stake Calculator")
 
 # User inputs
 bankroll = st.number_input("Bankroll (€):", min_value=0.0, value=5000.0, step=100.0)
-edge = st.number_input("Edge (as decimal, e.g., 0.12 for 12%):", min_value=0.0, max_value=1.0, value=0.1418, step=0.01)
+edge = st.number_input("Edge (as percentage, e.g., 4.5 for 4.5%):", min_value=0.0, value=14.18, step=0.1)
 kelly_fraction = st.slider("Kelly Fraction (0-1):", min_value=0.0, max_value=1.0, value=0.25, step=0.01)
-max_bet_percent = st.slider("Max Bet % of Bankroll (0-1):", min_value=0.0, max_value=1.0, value=0.025, step=0.001)
+max_bet_percent = st.number_input("Max Bet % of Bankroll (e.g., 2.5 for 2.5%):", min_value=0.0, value=2.5, step=0.1)
 
-# Calculate suggested bet
-if st.button("Calculate Suggested Bet"):
-    suggested_bet = kelly_criterion(edge, bankroll, kelly_fraction, max_bet_percent)
-    st.success(f"Suggested Bet: €{suggested_bet:.2f}")
+# Calculate suggested bet automatically
+suggested_bet = kelly_criterion(edge, bankroll, kelly_fraction, max_bet_percent)
+st.success(f"Suggested Bet: €{suggested_bet:.2f}")
