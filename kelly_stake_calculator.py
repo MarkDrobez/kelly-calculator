@@ -63,7 +63,7 @@ with col2:
 
     # Calculate suggested bet automatically
     suggested_bet = kelly_criterion(edge, bankroll, kelly_fraction, max_bet_percent)
-    st.markdown(f"<div class='stSuccess'>💰 Suggested Bet: €{suggested_bet}</div>", unsafe_allow_html=True)
+    st.markdown(f"<div class='stSuccess'>💰 Suggested Bet: €{suggested_bet} <button onclick=\"navigator.clipboard.writeText('{suggested_bet}')\">📋 Copy</button></div>", unsafe_allow_html=True)
     
     if st.button("I Placed This Bet", key="place_bet"):
         if suggested_bet <= bankroll:
