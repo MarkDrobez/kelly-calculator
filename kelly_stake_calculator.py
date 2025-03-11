@@ -1,6 +1,6 @@
 import streamlit as st
 
-def kelly_criterion(edge, bankroll, kelly_fraction=25, max_bet_percent=2.5):
+def kelly_criterion(edge, bankroll, kelly_fraction=25.0, max_bet_percent=2.5):
     """
     Calculate the optimal bet size using Kelly Criterion with a fractional approach and max bet cap.
     
@@ -56,9 +56,9 @@ col1, col2 = st.columns([1.5, 2])
 
 with col2:
     st.subheader("Bet Settings")
-    edge = st.number_input("Edge (as percentage, e.g., 4.5 for 4.5%):", min_value=0.0, value=14.18, step=0.1)
-    kelly_fraction = st.number_input("Kelly Fraction (as percentage, e.g., 25 for 25%):", min_value=0.0, value=25, step=1)
-    max_bet_percent = st.number_input("Max Bet % of Bankroll (e.g., 2.5 for 2.5%):", min_value=0.0, value=2.5, step=0.1)
+    edge = st.number_input("Edge (as percentage, e.g., 4.5 for 4.5%):", min_value=0.0, value=14.18, step=0.1, format="%.2f")
+    kelly_fraction = st.number_input("Kelly Fraction (as percentage, e.g., 25 for 25%):", min_value=0.0, value=25.0, step=1.0, format="%.1f")
+    max_bet_percent = st.number_input("Max Bet % of Bankroll (e.g., 2.5 for 2.5%):", min_value=0.0, value=2.5, step=0.1, format="%.1f")
 
     # Calculate suggested bet automatically
     suggested_bet = kelly_criterion(edge, bankroll, kelly_fraction, max_bet_percent)
@@ -76,7 +76,7 @@ with col2:
     st.markdown(f"<div class='stInfo'>📌 Updated Bankroll: €{st.session_state.bankroll}</div>", unsafe_allow_html=True)
     
     # Manual balance update below bankroll
-    new_balance = st.number_input("Current Balance (€):", value=st.session_state.bankroll, step=10.0)
+    new_balance = st.number_input("Current Balance (€):", value=st.session_state.bankroll, step=10.0, format="%.2f")
     if st.button("Set Balance", key="set_balance"):
         st.session_state.log.append(f"Balance changed to €{new_balance}")
         st.session_state.bankroll = new_balance
