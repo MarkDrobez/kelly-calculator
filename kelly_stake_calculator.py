@@ -33,13 +33,15 @@ def kelly_criterion(edge, bankroll, kelly_fraction=25.0, max_bet_percent=2.5):
 st.set_page_config(page_title="Kelly Stake Calculator", layout="wide")
 st.markdown("""
     <style>
-        .stApp { background-color: #ffffff; }
-        .stButton button { width: 100%; border-radius: 5px; font-size: 14px; padding: 8px; }
-        .stNumberInput input { border-radius: 5px; font-size: 14px; }
+        .stApp { background-color: #f5f5f5; color: #333; }
+        .stButton button { width: 100%; border-radius: 8px; font-size: 14px; padding: 10px; background: linear-gradient(90deg, #007bff, #0056b3); color: white; border: none; transition: 0.3s; }
+        .stButton button:hover { background: linear-gradient(90deg, #0056b3, #007bff); }
+        .stNumberInput input { border-radius: 8px; font-size: 14px; border: 1px solid #ccc; padding: 6px; }
         .stContainer { padding: 1rem; }
-        .stSuccess { background-color: #d4edda; padding: 10px; border-radius: 5px; }
-        .stInfo { background-color: #cce5ff; padding: 10px; border-radius: 5px; }
-        .footer { text-align: center; font-size: 14px; margin-top: 20px; padding-top: 10px; border-top: 1px solid #ddd; }
+        .stSuccess { background: linear-gradient(90deg, #28a745, #218838); color: white; padding: 12px; border-radius: 8px; text-align: center; font-weight: bold; }
+        .stInfo { background: linear-gradient(90deg, #17a2b8, #138496); color: white; padding: 12px; border-radius: 8px; text-align: center; font-weight: bold; }
+        .logEntry { background: #fff; padding: 8px; margin: 5px 0; border-radius: 6px; border-left: 4px solid #007bff; }
+        .footer { text-align: center; font-size: 14px; margin-top: 20px; padding-top: 10px; border-top: 1px solid #ddd; color: #666; }
     </style>
 """, unsafe_allow_html=True)
 
@@ -87,7 +89,7 @@ with col1:
     st.subheader("Balance Log")
     with st.container():
         for log_entry in reversed(st.session_state.log):
-            st.write(log_entry)
+            st.markdown(f"<div class='logEntry'>{log_entry}</div>", unsafe_allow_html=True)
 
 # Footer to credit Mark Drobez
 st.markdown("""
