@@ -39,6 +39,7 @@ st.markdown("""
         .stContainer { padding: 1rem; }
         .stSuccess { background-color: #d4edda; padding: 10px; border-radius: 5px; }
         .stInfo { background-color: #cce5ff; padding: 10px; border-radius: 5px; }
+        .footer { text-align: center; font-size: 14px; margin-top: 20px; padding-top: 10px; border-top: 1px solid #ddd; }
     </style>
 """, unsafe_allow_html=True)
 
@@ -87,3 +88,10 @@ with col1:
     with st.container():
         for log_entry in reversed(st.session_state.log):
             st.write(log_entry)
+
+# Footer to credit Mark Drobez
+st.markdown("""
+    <div class='footer'>
+        Created by <b>Mark Drobez</b> 🚀
+    </div>
+""", unsafe_allow_html=True)
