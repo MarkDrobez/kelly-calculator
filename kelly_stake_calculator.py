@@ -92,6 +92,6 @@ with col1:
 # Footer to credit Mark Drobez
 st.markdown("""
     <div class='footer'>
-        Created by <b>Fat Rahel</b> 🚀
+        Created by <b>MD</b> 🚀
     </div>
 """, unsafe_allow_html=True)
