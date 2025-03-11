@@ -33,13 +33,13 @@ def kelly_criterion(edge, bankroll, kelly_fraction=22.0, max_bet_percent=2.0):
 st.set_page_config(page_title="Kelly Stake Calculator", layout="wide")
 st.markdown("""
     <style>
-        .stApp { background-color: #ffffff; }
-        .stButton button { width: 100%; border-radius: 5px; font-size: 14px; padding: 8px; }
-        .stNumberInput input { border-radius: 5px; font-size: 14px; }
+        .stApp { background-color: #1e1e1e; color: #dcdcdc; }
+        .stButton button { width: 100%; border-radius: 5px; font-size: 14px; padding: 8px; background-color: #444; color: #fff; }
+        .stNumberInput input { border-radius: 5px; font-size: 14px; background-color: #333; color: #fff; }
         .stContainer { padding: 1rem; }
-        .stSuccess { background-color: #d4edda; padding: 10px; border-radius: 5px; }
-        .stInfo { background-color: #cce5ff; padding: 10px; border-radius: 5px; }
-        .footer { text-align: center; font-size: 14px; margin-top: 20px; padding-top: 10px; border-top: 1px solid #ddd; }
+        .stSuccess { background-color: #2e7d32; color: #ffffff; padding: 10px; border-radius: 5px; }
+        .stInfo { background-color: #1976d2; color: #ffffff; padding: 10px; border-radius: 5px; }
+        .footer { text-align: center; font-size: 14px; margin-top: 20px; padding-top: 10px; border-top: 1px solid #555; color: #bbb; }
     </style>
 """, unsafe_allow_html=True)
 
