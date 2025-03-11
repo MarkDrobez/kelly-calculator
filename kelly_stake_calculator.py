@@ -49,21 +49,23 @@ with col2:
 
     # Calculate suggested bet automatically
     suggested_bet = kelly_criterion(edge, bankroll, kelly_fraction, max_bet_percent)
-    with st.success(f"Suggested Bet: €{suggested_bet:.2f}"):
-        if st.button("I Placed This Bet"):
-            if suggested_bet <= bankroll:
-                st.session_state.bankroll -= suggested_bet
-                st.session_state.log.append(f"- €{suggested_bet:.2f} (Bet Placed)")
-                st.rerun()
-            else:
-                st.error("Insufficient funds to place the bet!")
+    st.success(f"Suggested Bet: €{suggested_bet:.2f}")
+    
+    # Move button inside the green field
+    if st.button("I Placed This Bet"):
+        if suggested_bet <= bankroll:
+            st.session_state.bankroll -= suggested_bet
+            st.session_state.log.append(f"- €{suggested_bet:.2f} (Bet Placed)")
+            st.rerun()
+        else:
+            st.error("Insufficient funds to place the bet!")
 
     # Display updated bankroll
     st.info(f"Updated Bankroll: €{st.session_state.bankroll:.2f}")
-
-    # Manual balance update
+    
+    # Manual balance update below bankroll
     new_balance = st.number_input("Current Balance (€):", value=st.session_state.bankroll, step=10.0)
-    if st.button("Update Balance"):
+    if st.button("Set Balance"):
         st.session_state.log.append(f"Balance changed to €{new_balance:.2f}")
         st.session_state.bankroll = new_balance
         st.rerun()
