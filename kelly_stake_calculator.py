@@ -32,7 +32,10 @@ def kelly_criterion(edge, bankroll, kelly_fraction=0.25, max_bet_percent=0.025):
 st.title("Kelly Stake Calculator")
 
 # User inputs
-bankroll = st.number_input("Bankroll (€):", min_value=0.0, value=5000.0, step=100.0)
+if 'bankroll' not in st.session_state:
+    st.session_state.bankroll = 5000.0
+
+bankroll = st.number_input("Bankroll (€):", min_value=0.0, value=st.session_state.bankroll, step=100.0)
 edge = st.number_input("Edge (as percentage, e.g., 4.5 for 4.5%):", min_value=0.0, value=14.18, step=0.1)
 kelly_fraction = st.slider("Kelly Fraction (0-1):", min_value=0.0, max_value=1.0, value=0.25, step=0.01)
 max_bet_percent = st.number_input("Max Bet % of Bankroll (e.g., 2.5 for 2.5%):", min_value=0.0, value=2.5, step=0.1)
@@ -40,3 +43,8 @@ max_bet_percent = st.number_input("Max Bet % of Bankroll (e.g., 2.5 for 2.5%):",
 # Calculate suggested bet automatically
 suggested_bet = kelly_criterion(edge, bankroll, kelly_fraction, max_bet_percent)
 st.success(f"Suggested Bet: €{suggested_bet:.2f}")
+
+# Button to place bet and update bankroll
+if st.button("I Placed This Bet"):
+    st.session_state.bankroll -= suggested_bet
+    st.experimental_rerun()
