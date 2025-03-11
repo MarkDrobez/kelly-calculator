@@ -2,6 +2,8 @@ import streamlit as st
 
 import pyperclip
 
+# Remove pyperclip as it doesn't work well with Streamlit
+
 def kelly_criterion(edge, bankroll, kelly_fraction=25.0, max_bet_percent=2.5):
     """
     Calculate the optimal bet size using Kelly Criterion with a fractional approach and max bet cap.
@@ -41,6 +43,8 @@ if 'bankroll' not in st.session_state:
     st.session_state.bankroll = 5000.0
 if 'log' not in st.session_state:
     st.session_state.log = []
+if 'copied_text' not in st.session_state:
+    st.session_state.copied_text = ""
 
 bankroll = st.session_state.bankroll
 
@@ -61,8 +65,8 @@ with col2:
         st.markdown(f"💰 Suggested Bet: €{suggested_bet}")
     with col_suggested_bet[1]:
         if st.button("Copy Bet"):
-            pyperclip.copy(str(suggested_bet))
-            st.success("Copied to clipboard!")
+            st.session_state.copied_text = str(suggested_bet)
+            st.markdown(f"Copied: `{st.session_state.copied_text}`")
     
     if st.button("I Placed This Bet", key="place_bet"):
         if suggested_bet <= bankroll:
