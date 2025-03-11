@@ -1,7 +1,5 @@
 import streamlit as st
 
-import pyperclip
-
 # Remove pyperclip as it doesn't work well with Streamlit
 
 def kelly_criterion(edge, bankroll, kelly_fraction=25.0, max_bet_percent=2.5):
@@ -43,8 +41,6 @@ if 'bankroll' not in st.session_state:
     st.session_state.bankroll = 5000.0
 if 'log' not in st.session_state:
     st.session_state.log = []
-if 'copied_text' not in st.session_state:
-    st.session_state.copied_text = ""
 
 bankroll = st.session_state.bankroll
 
@@ -64,9 +60,7 @@ with col2:
     with col_suggested_bet[0]:
         st.markdown(f"💰 Suggested Bet: €{suggested_bet}")
     with col_suggested_bet[1]:
-        if st.button("Copy Bet"):
-            st.session_state.copied_text = str(suggested_bet)
-            st.markdown(f"Copied: `{st.session_state.copied_text}`")
+        st.text_input("", value=str(suggested_bet), key="copy_bet", disabled=True)
     
     if st.button("I Placed This Bet", key="place_bet"):
         if suggested_bet <= bankroll:
