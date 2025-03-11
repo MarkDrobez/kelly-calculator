@@ -31,28 +31,46 @@ def kelly_criterion(edge, bankroll, kelly_fraction=0.25, max_bet_percent=0.025):
 # Streamlit UI
 st.title("Kelly Stake Calculator")
 
-# Initialize session state for bankroll
+# Initialize session state for bankroll and log
 if 'bankroll' not in st.session_state:
     st.session_state.bankroll = 5000.0
+if 'log' not in st.session_state:
+    st.session_state.log = []
 
 bankroll = st.session_state.bankroll
 
-# User inputs
-edge = st.number_input("Edge (as percentage, e.g., 4.5 for 4.5%):", min_value=0.0, value=14.18, step=0.1)
-kelly_fraction = st.slider("Kelly Fraction (0-1):", min_value=0.0, max_value=1.0, value=0.25, step=0.01)
-max_bet_percent = st.number_input("Max Bet % of Bankroll (e.g., 2.5 for 2.5%):", min_value=0.0, value=2.5, step=0.1)
+col1, col2 = st.columns([1, 2])
 
-# Calculate suggested bet automatically
-suggested_bet = kelly_criterion(edge, bankroll, kelly_fraction, max_bet_percent)
-st.success(f"Suggested Bet: €{suggested_bet:.2f}")
+with col2:
+    # User inputs
+    edge = st.number_input("Edge (as percentage, e.g., 4.5 for 4.5%):", min_value=0.0, value=14.18, step=0.1)
+    kelly_fraction = st.slider("Kelly Fraction (0-1):", min_value=0.0, max_value=1.0, value=0.25, step=0.01)
+    max_bet_percent = st.number_input("Max Bet % of Bankroll (e.g., 2.5 for 2.5%):", min_value=0.0, value=2.5, step=0.1)
 
-# Button to place bet and update bankroll
-if st.button("I Placed This Bet"):
-    if suggested_bet <= bankroll:
-        st.session_state.bankroll -= suggested_bet
+    # Calculate suggested bet automatically
+    suggested_bet = kelly_criterion(edge, bankroll, kelly_fraction, max_bet_percent)
+    st.success(f"Suggested Bet: €{suggested_bet:.2f}")
+
+    # Button to place bet and update bankroll
+    if st.button("I Placed This Bet"):
+        if suggested_bet <= bankroll:
+            st.session_state.bankroll -= suggested_bet
+            st.session_state.log.append(f"- €{suggested_bet:.2f} (Bet Placed)")
+            st.rerun()
+        else:
+            st.error("Insufficient funds to place the bet!")
+
+    # Manual balance update
+    manual_adjustment = st.number_input("Manually adjust balance (€):", value=0.0, step=10.0)
+    if st.button("Update Balance"):
+        st.session_state.bankroll += manual_adjustment
+        st.session_state.log.append(f"+ €{manual_adjustment:.2f} (Manual Update)")
         st.rerun()
-    else:
-        st.error("Insufficient funds to place the bet!")
 
-# Display updated bankroll
-st.info(f"Updated Bankroll: €{st.session_state.bankroll:.2f}")
+    # Display updated bankroll
+    st.info(f"Updated Bankroll: €{st.session_state.bankroll:.2f}")
+
+with col1:
+    st.subheader("Balance Log")
+    for log_entry in reversed(st.session_state.log):
+        st.write(log_entry)
