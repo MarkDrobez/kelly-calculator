@@ -1,5 +1,4 @@
 import streamlit as st
-import pyperclip
 
 # Streamlit UI
 st.set_page_config(page_title="Kelly Stake Calculator", layout="wide")
@@ -34,12 +33,12 @@ with col2:
     st.subheader("Bet Settings")
     edge = st.number_input("Edge (as percentage, e.g., 4.5 for 4.5%):", min_value=0.0, value=14.18, step=0.1, format="%.2f")
     
+    paste_edge = st.text_area("Paste Edge Value Here")
     if st.button("Paste Edge"):
-        pasted_value = st.text_area("Paste Here")
         try:
-            edge = float(pasted_value)
+            edge = float(paste_edge)
         except ValueError:
-            st.warning("Invalid input. Please enter a number.")
+            st.warning("Invalid input. Please enter a valid number.")
     
     kelly_fraction = st.number_input("Kelly Fraction (as percentage, e.g., 25 for 25%):", min_value=0.0, value=25.0, step=1.0, format="%.1f")
     max_bet_percent = st.number_input("Max Bet % of Bankroll (e.g., 2.5 for 2.5%):", min_value=0.0, value=2.5, step=0.1, format="%.1f")
@@ -51,8 +50,7 @@ with col2:
         st.markdown(f"💰 Suggested Bet: €{suggested_bet}")
     with col_suggested_bet[1]:
         if st.button("Copy Bet"):
-            pyperclip.copy(str(suggested_bet))
-            st.success("Copied to clipboard!")
+            st.write(f"Copied: {suggested_bet}")
     
     if st.button("I Placed This Bet", key="place_bet"):
         if suggested_bet <= bankroll:
