@@ -63,12 +63,12 @@ with col2:
 
     # Calculate suggested bet automatically
     suggested_bet = kelly_criterion(edge, bankroll, kelly_fraction, max_bet_percent)
-    st.markdown(f"<div class='stSuccess'>💰 Suggested Bet:                                       {suggested_bet}</div>", unsafe_allow_html=True)
+    st.markdown(f"<div class='stSuccess'>💰 Suggested Bet: {suggested_bet}</div>", unsafe_allow_html=True)
     
     if st.button("I Placed This Bet", key="place_bet"):
         if suggested_bet <= bankroll:
-            st.session_state.bankroll -= suggested_bet
-            st.session_state.log.append(f"- €{suggested_bet} (Bet Placed)")
+            st.session_state.bankroll -= suggested_bet * 0.5  # Reduce balance by 50% of the bet instead of 100%
+            st.session_state.log.append(f"- €{suggested_bet * 0.5} (Bet Placed - 50% Reduction)")
             st.rerun()
         else:
             st.error("Insufficient funds to place the bet!")
